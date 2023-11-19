@@ -9,5 +9,5 @@ local function update()
       event, id = os.pullEvent("timer")
     until id == timer
     controller.clear()
-    controller.drawRightboundString(os.date(), -10, 10, 0xffffff)
+    controller.drawCenteredString(os.date(), 0, 0, 0xffffff)
 end
