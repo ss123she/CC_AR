@@ -1,5 +1,5 @@
 function wget(link)
-    shell.run("wget " + link)
+    shell.run("wget " .. link)
 end
 
 function compareFiles(file1, file2)
