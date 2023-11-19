@@ -8,36 +8,32 @@ function compareFiles(file1, file2)
 
     return content1 == content2
 end
-
 if fs.exists("/bin") then
-    shell.setWorkingDirectory("/bin")
+    shell.run("cd /bin")
     if fs.exists("/bin/base.lua") then
         fs.remove("/bin/base.lua")
-        term.write("deleted base.lua\n")
+        term.write("deleted base.lua")
     end
     wget("https://raw.githubusercontent.com/ss123she/CC_AR/main/base.lua")
-    term.write("success added new base.lua\n")
-    shell.setWorkingDirectory("/")
+    term.write("success added new base.lua")
+    shell.run("cd /")
 else
     shell.run("mkdir /bin")
-    term.write("folder bin created\n")
-    shell.setWorkingDirectory("/bin")
+    term.write("folder bin created")
+    shell.run("cd /bin")
     wget("https://raw.githubusercontent.com/ss123she/CC_AR/main/base.lua")
-    term.write("success\n")
-    shell.setWorkingDirectory("/")
+    term.write("success")
+    shell.run("cd /")
 end
-
-local file1 = "/bin/base.lua"
-local file2 = "/base.lua"
+file1 = "/bin/base.lua"
+file2 = "/base.lua"
 if compareFiles(file1, file2) then
-    term.write("Files are the same.\n")
+    term.write("Files are the same.")
 else
     print("Files are different, replacing")
+    shell.run("cd /")
     wget("https://raw.githubusercontent.com/ss123she/CC_AR/main/base.lua")
 end
+if fs.exists("/installer.lua") then fs.remove("/installer.lua") end
 
-if fs.exists("/installer.lua") then
-    fs.remove("/installer.lua")
-end
-
-dofile("/base.lua")
+term.execute("/base.lua")
