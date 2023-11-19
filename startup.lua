@@ -14,14 +14,14 @@ if fs.exists("/bin") then
         fs.remove("/bin/base.lua")
     end
     wget("https://raw.githubusercontent.com/ss123she/CC_AR/main/base.lua")
-    shell.write("success")
+    term.write("success")
     shell.run("cd /")
 else
     shell.run("mkdir /bin")
-    shell.write("folder bin created")
+    term.write("folder bin created")
     shell.run("cd /bin")
     wget("https://raw.githubusercontent.com/ss123she/CC_AR/main/base.lua")
-    shell.write("success")
+    term.write("success")
     shell.run("cd /")
 end
 if fs.exists("/installer.lua") then fs.remove("/installer.lua") end
