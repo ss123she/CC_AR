@@ -10,7 +10,7 @@ if fs.exists("/startup.lua") then
     fs.delete("/startup.lua")
     os.sleep(1)
 end
-term.write("\nInstalling ar-base.lua...")
+term.write("\nInstalling base.lua...")
 os.sleep(1)
 shell.run("wget https://raw.githubusercontent.com/ss123she/CC_AR/main/base.lua")
 os.sleep(1)
