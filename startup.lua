@@ -12,9 +12,10 @@ if fs.exists("/bin") then
     shell.run("cd /bin")
     if fs.exists("/bin/base.lua") then
         fs.remove("/bin/base.lua")
+        term.write("deleted base.lua")
     end
     wget("https://raw.githubusercontent.com/ss123she/CC_AR/main/base.lua")
-    term.write("success")
+    term.write("success added new base.lua")
     shell.run("cd /")
 else
     shell.run("mkdir /bin")
@@ -23,6 +24,15 @@ else
     wget("https://raw.githubusercontent.com/ss123she/CC_AR/main/base.lua")
     term.write("success")
     shell.run("cd /")
+end
+file1 = "/bin/base.lua"
+file2 = "/base.lua"
+if compareFiles(file1, file2) then
+    term.write("Files are the same.")
+else
+    print("Files are different, replacing")
+    shell.run("cd /")
+    wget("https://raw.githubusercontent.com/ss123she/CC_AR/main/base.lua")
 end
 if fs.exists("/installer.lua") then fs.remove("/installer.lua") end
 
