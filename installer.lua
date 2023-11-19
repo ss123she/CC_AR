@@ -12,7 +12,7 @@ if fs.exists("/startup.lua") then
 end
 term.write("\nInstalling ar-base.lua...")
 os.sleep(1)
-shell.run("wget https://raw.githubusercontent.com/ss123she/CC_AR/main/ar-base.lua")
+shell.run("wget https://raw.githubusercontent.com/ss123she/CC_AR/main/base.lua")
 os.sleep(1)
 shell.run("wget https://raw.githubusercontent.com/ss123she/CC_AR/main/startup.lua")
 os.sleep(1)
