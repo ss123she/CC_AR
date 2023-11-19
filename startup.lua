@@ -1,6 +1,7 @@
-local http = require("socket.http")
+local internet = require("internet")
 local ltn12 = require("ltn12")
-local lfs = require("lfs")
+local fs = require("filesystem")
+local shell = require("shell")
 
 -- Замените эти значения на свои данные
 local githubUsername = "ss123she"
@@ -12,12 +13,13 @@ local localFilePath = fileName
 function downloadFromGitHub(username, repository, file, outputFilePath)
     local url = string.format("https://raw.githubusercontent.com/%s/%s/main/%s", username, repository, file)
     local response = {}
-    
-    local success, status = http.request {
-        url = url,
-        sink = ltn12.sink.table(response)
-    }
-    
+
+    local success, status = pcall(function()
+        for chunk in internet.request(url) do
+            table.insert(response, chunk)
+        end
+    end)
+
     if success and status == 200 then
         local fileContent = table.concat(response)
         local file = io.open(outputFilePath, "w")
@@ -33,15 +35,15 @@ end
 function compareFiles(localFile, githubFile)
     local localContent = assert(io.open(localFile)):read("*all")
     local githubContent = githubFile
-    
+
     return localContent == githubContent
 end
 
 -- Проверяем, существует ли локальный файл
-if lfs.attributes(localFilePath) then
+if fs.exists(localFilePath) then
     -- Загружаем содержимое файла с GitHub
-    local githubContent = downloadFromGitHub(githubUsername, githubRepository, fileName)
-    
+    local githubContent = downloadFromGitHub(githubUsername, githubRepository, fileName, localFilePath)
+
     -- Сравниваем локальный и удаленный файлы
     if not compareFiles(localFilePath, githubContent) then
         print("Local and remote files are different. Updating...")
@@ -54,7 +56,9 @@ else
     downloadFromGitHub(githubUsername, githubRepository, fileName, localFilePath)
 end
 
+-- Удаляем старый установочный файл, если существует
 if fs.exists("/installer.lua") then
-    fs.delete("/installer.lua")
+    fs.remove("/installer.lua")
 end
-shell.run("/base.lua")
+-- Запускаем основной файл
+shell.execute("/base.lua")
